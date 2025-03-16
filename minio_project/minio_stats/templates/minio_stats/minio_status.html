@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinIO Cluster Status</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 900px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .healthy { color: green; font-weight: bold; }
+        .unhealthy { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>MinIO Cluster Health</h2>
+    <p>Node Health: <span class="{% if node_health == 'Healthy' %} healthy {% else %} unhealthy {% endif %}">{{ node_health }}</span></p>
+    
+    <h3>Cluster Overview</h3>
+    <p><strong>Nodes Online:</strong> {{ nodes_online }}</p>
+    <p><strong>Nodes Offline:</strong> {{ nodes_offline }}</p>
+    <p><strong>Total Buckets:</strong> {{ buckets_total }}</p>
+    <p><strong>Total Objects:</strong> {{ objects_total }}</p>
+
+    <h3>Storage Usage</h3>
+    <p><strong>Total Storage:</strong> {{ total_storage }} bytes</p>
+    <p><strong>Used Storage:</strong> {{ used_storage }} bytes</p>
+    <p><strong>Free Storage:</strong> {{ free_storage }} bytes</p>
+
+    <h3>Node-Specific Details</h3>
+    <table>
+        <tr>
+            <th>Node ID</th>
+            <th>Status</th>
+            <th>CPU Usage (s)</th>
+            <th>Memory Usage (Bytes)</th>
+            <th>Disk Read (Bytes)</th>
+            <th>Disk Write (Bytes)</th>
+        </tr>
+        {% for node in node_details %}
+        <tr>
+            <td>{{ node.node_id }}</td>
+            <td>{% if node.online %}Online {% else %} Offline{% endif %}</td>
+            <td>{{ node.cpu_usage }}</td>
+            <td>{{ node.memory_usage }}</td>
+            <td>{{ node.disk_read }}</td>
+            <td>{{ node.disk_write }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>
