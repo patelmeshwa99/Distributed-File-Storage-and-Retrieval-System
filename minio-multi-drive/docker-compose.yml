@@ -1,0 +1,73 @@
+services:
+  minio1:
+    image: quay.io/minio/minio
+    container_name: minio1
+    command: server --console-address ":9001" http://minio{1...4}/data
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: strongpassword
+      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    volumes:
+      - minio1-data:/data
+    networks:
+      - minio-cluster
+
+  minio2:
+    image: quay.io/minio/minio
+    container_name: minio2
+    command: server --console-address ":9002" http://minio{1...4}/data
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: strongpassword
+      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+    ports:
+      - "9002:9002"
+      - "9005:9000"  # Change port 9000 -> 9005 to avoid conflicts
+    volumes:
+      - minio2-data:/data
+    networks:
+      - minio-cluster
+
+  minio3:
+    image: quay.io/minio/minio
+    container_name: minio3
+    command: server --console-address ":9003" http://minio{1...4}/data
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: strongpassword
+      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+    ports:
+      - "9003:9003"
+      - "9006:9000"  # Change port 9000 -> 9006 to avoid conflicts
+    volumes:
+      - minio3-data:/data
+    networks:
+      - minio-cluster
+
+  minio4:
+    image: quay.io/minio/minio
+    container_name: minio4
+    command: server --console-address ":9004" http://minio{1...4}/data
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: strongpassword
+      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+    ports:
+      - "9004:9004"
+      - "9007:9000"  # Change port 9000 -> 9007 to avoid conflicts
+    volumes:
+      - minio4-data:/data
+    networks:
+      - minio-cluster
+
+volumes:
+  minio1-data:
+  minio2-data:
+  minio3-data:
+  minio4-data:
+
+networks:
+  minio-cluster:
