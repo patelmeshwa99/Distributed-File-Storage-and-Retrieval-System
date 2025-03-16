@@ -1,0 +1,22 @@
+# Ignore the node_modules folder (common in JavaScript projects)
+node_modules/
+
+# Ignore all .log files
+*.log
+
+# Ignore a specific file
+secret-config.json
+
+# Ignore all files inside a folder
+config/
+
+# Ignore all .env files (used for environment variables)
+.env
+
+# Ignore build and compiled files
+/dist
+/build
+
+# Ignore VS Code settings folder
+.vscode/
+
