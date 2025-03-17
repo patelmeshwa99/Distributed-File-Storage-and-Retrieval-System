@@ -7,7 +7,7 @@ import requests
 from .utils.utils import bucket_exists_check, get_chunk_from_minio, make_bucket, process_file
 
 sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
-from kademlia_server import node
+# from kademlia_server import node
 
 def sign_up(request):
     name = "meshwa"
@@ -35,7 +35,7 @@ async def upload_file(request):
         # Test connection by checking the MinIO bucket
         if bucket_exists_check(name):
             # process_file(request.FILES['file'])
-            await process_file(open("/Users/meshwa/Desktop/lab6-2.png", 'rb'))
+            await process_file(open(request.FILES['file'], 'rb'))
         return HttpResponse("Connection to MinIO successful!")
     
     except S3Error as e:
@@ -55,7 +55,7 @@ def request_chunk_from_peer(chunk_name):
 async def download_file(request):
         file_name='lab6-1.png'
         # Fetch chunk locations from Kademlia
-        chunk_locations = await node.get_metadata(file_name)
+        # chunk_locations = await node.get_metadata(file_name)
 
         if not chunk_locations:
             return JsonResponse({"error": "File not found"}, status=404)
